@@ -1,0 +1,5 @@
+*.ninja*
+*.bin
+*ipch
+bin
+build
