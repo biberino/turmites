@@ -1,144 +1,205 @@
 #include "translations.hpp"
-#include "ant.hpp"
 
 const v2 UP(0, -1);
 const v2 DOWN(0, 1);
 const v2 LEFT(-1, 0);
 const v2 RIGHT(1, 0);
 
-void turn_right(Ant &a)
+void turn_right(Translation_State& t)
 {
-    if (a._direction == UP)
+    if (t.dir == UP)
     {
 
-        a._direction = RIGHT;
+        t.dir = RIGHT;
     }
-    else if (a._direction == RIGHT)
+    else if (t.dir == RIGHT)
     {
-        a._direction = DOWN;
+        t.dir = DOWN;
     }
-    else if (a._direction == DOWN)
+    else if (t.dir == DOWN)
     {
-        a._direction = LEFT;
+        t.dir = LEFT;
     }
-    else if (a._direction == LEFT)
+    else if (t.dir == LEFT)
     {
-        a._direction = UP;
+        t.dir = UP;
     }
-    a._pos = a._direction + a._pos;
+    t.pos = t.dir + t.pos;
 
-    if (a._pos.x >= pixel_darstellbar_x)
-        a._pos.x = a._pos.x % pixel_darstellbar_x;
-    if (a._pos.y >= pixel_darstellbar_y)
-        a._pos.y = a._pos.y % pixel_darstellbar_y;
-    if (a._pos.x < 0)
-        a._pos.x += pixel_darstellbar_x;
-    if (a._pos.y < 0)
-        a._pos.y += pixel_darstellbar_y;
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
 }
-void turn_left(Ant &a)
+void turn_left(Translation_State& t)
 {
-    if (a._direction == UP)
+    if (t.dir == UP)
     {
 
-        a._direction = LEFT;
+        t.dir = LEFT;
     }
-    else if (a._direction == RIGHT)
+    else if (t.dir == RIGHT)
     {
-        a._direction = UP;
+        t.dir = UP;
     }
-    else if (a._direction == DOWN)
+    else if (t.dir == DOWN)
     {
-        a._direction = RIGHT;
+        t.dir = RIGHT;
     }
-    else if (a._direction == LEFT)
+    else if (t.dir == LEFT)
     {
-        a._direction = DOWN;
+        t.dir = DOWN;
     }
-    a._pos = a._direction + a._pos;
+    t.pos = t.dir + t.pos;
 
-    if (a._pos.x >= pixel_darstellbar_x)
-        a._pos.x = a._pos.x % pixel_darstellbar_x;
-    if (a._pos.y >= pixel_darstellbar_y)
-        a._pos.y = a._pos.y % pixel_darstellbar_y;
-    if (a._pos.x < 0)
-        a._pos.x += pixel_darstellbar_x;
-    if (a._pos.y < 0)
-        a._pos.y += pixel_darstellbar_y;
-}
-
-void straight(Ant &a)
-{
-    a._pos = a._direction + a._pos;
-
-    if (a._pos.x >= pixel_darstellbar_x)
-        a._pos.x = a._pos.x % pixel_darstellbar_x;
-    if (a._pos.y >= pixel_darstellbar_y)
-        a._pos.y = a._pos.y % pixel_darstellbar_y;
-    if (a._pos.x < 0)
-        a._pos.x += pixel_darstellbar_x;
-    if (a._pos.y < 0)
-        a._pos.y += pixel_darstellbar_y;
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
 }
 
-void jump_left(Ant &a)
+void straight(Translation_State& t)
 {
-    if (a._direction == UP)
-    {
+    t.pos = t.dir + t.pos;
 
-        a._direction = LEFT;
-    }
-    else if (a._direction == RIGHT)
-    {
-        a._direction = UP;
-    }
-    else if (a._direction == DOWN)
-    {
-        a._direction = RIGHT;
-    }
-    else if (a._direction == LEFT)
-    {
-        a._direction = DOWN;
-    }
-    a._pos = a._direction*2 + a._pos;
-
-    if (a._pos.x >= pixel_darstellbar_x)
-        a._pos.x = a._pos.x % pixel_darstellbar_x;
-    if (a._pos.y >= pixel_darstellbar_y)
-        a._pos.y = a._pos.y % pixel_darstellbar_y;
-    if (a._pos.x < 0)
-        a._pos.x += pixel_darstellbar_x;
-    if (a._pos.y < 0)
-        a._pos.y += pixel_darstellbar_y;
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
 }
 
-void jump_right(Ant &a)
+void jump_left(Translation_State& t)
 {
-    if (a._direction == UP)
+    if (t.dir == UP)
     {
 
-        a._direction = RIGHT;
+        t.dir = LEFT;
     }
-    else if (a._direction == RIGHT)
+    else if (t.dir == RIGHT)
     {
-        a._direction = DOWN;
+        t.dir = UP;
     }
-    else if (a._direction == DOWN)
+    else if (t.dir == DOWN)
     {
-        a._direction = LEFT;
+        t.dir = RIGHT;
     }
-    else if (a._direction == LEFT)
+    else if (t.dir == LEFT)
     {
-        a._direction = UP;
+        t.dir = DOWN;
     }
-    a._pos = a._direction*2 + a._pos;
+    t.pos = t.dir * 2 + t.pos;
 
-    if (a._pos.x >= pixel_darstellbar_x)
-        a._pos.x = a._pos.x % pixel_darstellbar_x;
-    if (a._pos.y >= pixel_darstellbar_y)
-        a._pos.y = a._pos.y % pixel_darstellbar_y;
-    if (a._pos.x < 0)
-        a._pos.x += pixel_darstellbar_x;
-    if (a._pos.y < 0)
-        a._pos.y += pixel_darstellbar_y;
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
+}
+
+void jump_right(Translation_State& t)
+{
+    if (t.dir == UP)
+    {
+
+        t.dir = RIGHT;
+    }
+    else if (t.dir == RIGHT)
+    {
+        t.dir = DOWN;
+    }
+    else if (t.dir == DOWN)
+    {
+        t.dir = LEFT;
+    }
+    else if (t.dir == LEFT)
+    {
+        t.dir = UP;
+    }
+    t.pos = t.dir * 2 + t.pos;
+
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
+}
+
+void diag_right(Translation_State& t)
+{
+    v2 old = t.dir;
+    if (t.dir == UP)
+    {
+        t.dir = RIGHT;
+    }
+    else if (t.dir == RIGHT)
+    {
+        t.dir = DOWN;
+    }
+    else if (t.dir == DOWN)
+    {
+        t.dir = LEFT;
+    }
+    else if (t.dir == LEFT)
+    {
+        t.dir = UP;
+    }
+    t.pos = t.dir + t.pos + old;
+
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
+}
+void diag_left(Translation_State& t)
+{
+    v2 old = t.dir;
+    if (t.dir == UP)
+    {
+
+        t.dir = LEFT;
+    }
+    else if (t.dir == RIGHT)
+    {
+        t.dir = UP;
+    }
+    else if (t.dir == DOWN)
+    {
+        t.dir = RIGHT;
+    }
+    else if (t.dir == LEFT)
+    {
+        t.dir = DOWN;
+    }
+    t.pos = t.dir + t.pos + old;
+
+    if (t.pos.x >= pixel_darstellbar_x)
+        t.pos.x = t.pos.x % pixel_darstellbar_x;
+    if (t.pos.y >= pixel_darstellbar_y)
+        t.pos.y = t.pos.y % pixel_darstellbar_y;
+    if (t.pos.x < 0)
+        t.pos.x += pixel_darstellbar_x;
+    if (t.pos.y < 0)
+        t.pos.y += pixel_darstellbar_y;
 }

@@ -3,14 +3,23 @@
 
 #include "global.hpp"
 
-class Ant;
 
-using translation_function = void (*)(Ant& a);
+struct Translation_State
+{
+    v2 dir;
+    v2 pos;
 
-void turn_right(Ant& a);
-void turn_left(Ant& a);
-void straight(Ant& a);
-void jump_left(Ant& a);
-void jump_right(Ant& a);
+};
+
+
+using translation_function = void (*)(Translation_State& t);
+
+void turn_right(Translation_State& t);
+void turn_left(Translation_State& t);
+void straight(Translation_State& t);
+void jump_left(Translation_State& t);
+void jump_right(Translation_State& t);
+void diag_right(Translation_State& t);
+void diag_left(Translation_State& t);
 
 #endif // !TRANSLATION_GUARD

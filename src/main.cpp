@@ -1,14 +1,13 @@
 #include "global.hpp"
 #include "board.hpp"
-#include "ant.hpp"
-#include "basic_rule.hpp"
 #include "translations.hpp"
+#include "turmite.hpp"
+#include "turmite_factory.hpp"
 
 Board board;
-int x = pixel_darstellbar_x / 2;
-int y = pixel_darstellbar_y / 2;
 
-std::vector<Ant> ants;
+
+std::vector<Turmite> turmite_arr;
 
 int temp = 0;
 
@@ -47,37 +46,10 @@ void setupColors()
 }
 } // namespace colors
 
-void init_ants()
+void init_turmites()
 {
-    Ant a(new BasicRule(0, 1, turn_right), v2(x, y), v2(0, -1));
+    turmite_arr = create_turmites();
 
-    a.add_rule(new BasicRule(0, 1, turn_right));
-    a.add_rule(new BasicRule(1, 2, turn_left));
-    a.add_rule(new BasicRule(2, 3, turn_left));
-    a.add_rule(new BasicRule(3, 0, turn_right));
-    a.add_rule(new BasicRule(4, 5, turn_right));
-    a.add_rule(new BasicRule(5, 6, turn_right));
-    a.add_rule(new BasicRule(6, 7, turn_right));
-    a.add_rule(new BasicRule(7, 8, turn_right));
-
-    a.add_rule(new BasicRule(8, 9, turn_left));
-    a.add_rule(new BasicRule(9, 10, turn_left));
-    a.add_rule(new BasicRule(10, 11, turn_left));
-    a.add_rule(new BasicRule(11, 12, turn_left));
-    a.add_rule(new BasicRule(12, 13, turn_left));
-    a.add_rule(new BasicRule(13, 14, turn_left));
-    a.add_rule(new BasicRule(14, 15, turn_left));
-    a.add_rule(new BasicRule(15, 0, turn_left));
-
-
-    ants.push_back(a);
-    //ants.push_back(a);
-
-    Ant b(new BasicRule(0, 1, turn_right), v2(x, y), v2(0, -1));
-
-    b.add_rule(new BasicRule(1, 0, turn_left));
-    //b.add_rule(new BasicRule(2, 0, turn_right));
-    //ants.push_back(b);
 }
 
 void myDisplay(void)
@@ -86,19 +58,19 @@ void myDisplay(void)
     glutSwapBuffers(); // swap buffers
 }
 
-void ant_loop(int value)
+void main_loop(int value)
 {
 
     for (size_t i = 0; i < update_mult; i++)
     {
-        for (auto &a : ants)
+        for (auto &a : turmite_arr)
         {
             a.update(board);
         }
     }
 
     glutPostRedisplay();
-    glutTimerFunc(loop_timeout_ms, ant_loop, 0);
+    glutTimerFunc(loop_timeout_ms, main_loop, 0);
 }
 
 void myKeyboard(unsigned char c, int x, int y)
@@ -111,8 +83,8 @@ void myKeyboard(unsigned char c, int x, int y)
 
     case 32: // Leertaste
 
-        glutTimerFunc(loop_timeout_ms, ant_loop, 0);
-        std::cout << "Game Loop started" << '\n';
+        glutTimerFunc(loop_timeout_ms, main_loop, 0);
+        std::cout << "Main Loop started" << '\n';
         break;
     }
 }
@@ -121,7 +93,7 @@ int main(int argc, char *argv[])
 {
 
     colors::setupColors();
-    init_ants();
+    init_turmites();
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

@@ -14,15 +14,15 @@
 const int WIDTH = 1500;
 const int HEIGHT = 1500;
 
-const int pixel_h = 5;
-const int pixel_w = 5;
+const int pixel_h = 3;
+const int pixel_w = 3;
 
 const int pixel_darstellbar_x = WIDTH / pixel_w;
 const int pixel_darstellbar_y = HEIGHT / pixel_h;
 
 const int loop_timeout_ms = 20;
 
-const int update_mult = 600;
+const int update_mult = 6000;
 
 struct Pos
 {
